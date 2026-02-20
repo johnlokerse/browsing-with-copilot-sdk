@@ -270,7 +270,50 @@ button.danger:hover:not(:disabled) {
   border-left-color: #3f7d3f;
 }
 
-.msg.system {
+.msg.assistant strong {
+  font-weight: 700;
+}
+
+.msg.assistant em {
+  font-style: italic;
+}
+
+.msg.assistant code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  background: rgba(63, 125, 63, 0.12);
+  border: 1px solid rgba(63, 125, 63, 0.2);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.msg.assistant pre {
+  margin: 6px 0 2px;
+  background: rgba(63, 125, 63, 0.08);
+  border: 1px solid rgba(63, 125, 63, 0.18);
+  border-radius: 6px;
+  padding: 8px 10px;
+  overflow-x: auto;
+}
+
+.msg.assistant pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+}
+
+.msg.assistant a {
+  color: var(--brand);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.msg.assistant a:hover {
+  color: var(--brand-strong);
+}
+
+
   background: #fff7e8;
   border: 1px solid #f2dfb8;
   border-left-color: #c1912c;

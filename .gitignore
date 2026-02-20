@@ -4,3 +4,5 @@ dist/
 .env
 .env.*
 .DS_Store
+extension/dist/
+extension/node_modules/

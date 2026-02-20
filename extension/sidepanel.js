@@ -99,10 +99,38 @@ function resetActivity() {
   activityStepCount = 0;
 }
 
+function renderMarkdown(text) {
+  // Escape raw HTML to prevent injection
+  const escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return escaped
+    // Code blocks (``` ... ```) — before inline code
+    .replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${code.trim()}</code></pre>`)
+    // Inline code
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    // Bold
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/__(.+?)__/g, "<strong>$1</strong>")
+    // Italic
+    .replace(/\*(.+?)\*/g, "<em>$1</em>")
+    .replace(/_(.+?)_/g, "<em>$1</em>")
+    // Auto-link URLs not already inside an href
+    .replace(/(?<!href="|">)(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+    // Newlines to <br>
+    .replace(/\n/g, "<br>");
+}
+
 function appendMessage(role, text) {
   const messageEl = document.createElement("div");
   messageEl.className = `msg ${role}`;
-  messageEl.textContent = text;
+  if (role === "assistant") {
+    messageEl.innerHTML = renderMarkdown(text);
+  } else {
+    messageEl.textContent = text;
+  }
   transcriptEl.appendChild(messageEl);
   transcriptEl.scrollTop = transcriptEl.scrollHeight;
   return messageEl;
@@ -397,8 +425,10 @@ chrome.runtime.onMessage.addListener((message) => {
   if (event.type === "assistant_delta") {
     if (!streamingMessageEl) {
       streamingMessageEl = appendMessage("assistant", "");
+      streamingMessageEl._rawText = "";
     }
-    streamingMessageEl.textContent += event.textDelta;
+    streamingMessageEl._rawText += event.textDelta;
+    streamingMessageEl.innerHTML = renderMarkdown(streamingMessageEl._rawText);
     transcriptEl.scrollTop = transcriptEl.scrollHeight;
     return;
   }

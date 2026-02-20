@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copilot Browser Agent</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="h-full bg-gh-canvas text-gh-text font-sans overflow-hidden">
+    <main class="h-full flex flex-col gap-2 p-3 max-w-[460px] mx-auto">
+
+      <!-- Controls (collapsible) -->
+      <details id="controlsDetails" class="rounded-xl border border-gh-border bg-gh-surface shrink-0">
+        <summary class="flex items-center gap-2 px-3 py-2.5 text-xs font-semibold text-gh-muted cursor-pointer select-none list-none
+                        rounded-xl [&::-webkit-details-marker]:hidden
+                        hover:text-gh-text transition-colors">
+          <span class="text-[8px] transition-transform [[open]_&]:rotate-90">▶</span>
+          <div id="statusDot" class="w-2 h-2 rounded-full bg-gh-red shrink-0"></div>
+          <span id="statusText">Offline</span>
+        </summary>
+
+        <div class="flex flex-col gap-2.5 px-3 pb-3 border-t border-gh-border pt-2.5">
+          <!-- Token -->
+          <label class="flex flex-col gap-1">
+            <span class="text-[11px] font-semibold text-gh-muted">Pairing token</span>
+            <input id="tokenInput" type="password" autocomplete="off"
+                   class="w-full bg-gh-overlay border border-gh-border rounded-lg px-3 py-2 text-sm text-gh-text
+                          placeholder:text-gh-muted outline-none
+                          focus:border-gh-blue focus:ring-2 focus:ring-gh-blue/20
+                          disabled:opacity-50 disabled:cursor-not-allowed transition" />
+          </label>
+
+          <!-- Connect / Stop -->
+          <div class="grid grid-cols-2 gap-2">
+            <button id="connectBtn" type="button"
+                    class="rounded-lg bg-gh-blue hover:bg-gh-blue-hover text-white text-xs font-semibold py-2 px-3
+                           disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Connect</button>
+            <button id="stopBtn" type="button"
+                    class="rounded-lg bg-gh-overlay border border-gh-border text-gh-red hover:border-gh-red text-xs font-semibold py-2 px-3
+                           disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Stop</button>
+          </div>
+
+          <!-- Auto-run -->
+          <label class="flex items-center gap-2 text-xs text-gh-muted cursor-pointer select-none">
+            <input id="autoRunToggle" type="checkbox"
+                   class="accent-gh-blue w-3.5 h-3.5 rounded cursor-pointer" />
+            <span>Auto-run</span>
+          </label>
+
+          <!-- Approval box -->
+          <section id="approvalBox" class="rounded-lg border border-gh-border bg-gh-overlay p-2.5">
+            <p id="approvalLabel" class="text-[11px] text-gh-muted mb-2">No pending action</p>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="approveBtn" type="button" disabled
+                      class="rounded-lg bg-gh-overlay border border-gh-border text-gh-green hover:border-gh-green text-xs font-semibold py-1.5 px-2
+                             disabled:opacity-40 disabled:cursor-not-allowed transition-colors">Approve</button>
+              <button id="rejectBtn" type="button" disabled
+                      class="rounded-lg bg-gh-overlay border border-gh-border text-gh-red hover:border-gh-red text-xs font-semibold py-1.5 px-2
+                             disabled:opacity-40 disabled:cursor-not-allowed transition-colors">Reject</button>
+            </div>
+          </section>
+        </div>
+      </details>
+
+      <!-- Transcript -->
+      <section id="transcript"
+               class="flex-1 min-h-0 flex flex-col gap-2 overflow-y-auto rounded-xl border border-gh-border bg-gh-surface p-2.5"
+               aria-live="polite"></section>
+
+      <!-- Quick actions -->
+      <section id="quickActions"
+               class="flex flex-wrap gap-1.5 px-2.5 py-2 rounded-xl border border-gh-border bg-gh-surface shrink-0 min-h-[40px] items-center"></section>
+
+      <!-- Composer -->
+      <form id="composer"
+            class="flex gap-2 items-center rounded-xl border border-gh-border bg-gh-surface p-2 shrink-0">
+        <input id="messageInput" type="text" placeholder="Type a request..." autocomplete="off" required
+               class="flex-1 bg-transparent text-sm text-gh-text placeholder:text-gh-muted outline-none
+                      disabled:opacity-50 disabled:cursor-not-allowed" />
+        <button id="sendBtn" type="submit"
+                class="flex items-center gap-1.5 rounded-lg bg-gh-blue hover:bg-gh-blue-hover text-white text-xs font-semibold py-2 px-4
+                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-w-[80px] justify-center">
+          <span id="sendLabel">Send</span>
+          <span id="sendSpinner" class="hidden w-3 h-3 rounded-full border-2 border-white/30 border-t-white spin" aria-hidden="true"></span>
+        </button>
+      </form>
+
+    </main>
+    <script type="module" src="./sidepanel.ts"></script>
+  </body>
+</html>

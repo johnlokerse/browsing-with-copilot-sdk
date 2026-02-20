@@ -12,7 +12,7 @@
     "default_title": "Copilot Browser Agent"
   },
   "side_panel": {
-    "default_path": "sidepanel.html"
+    "default_path": "dist/sidepanel.html"
   },
   "content_scripts": [
     {

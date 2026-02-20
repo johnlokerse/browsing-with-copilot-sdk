@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gh-canvas: #0d1117;
+  --color-gh-surface: #161b22;
+  --color-gh-overlay: #21262d;
+  --color-gh-border: #30363d;
+  --color-gh-border-muted: #21262d;
+  --color-gh-text: #e6edf3;
+  --color-gh-muted: #8b949e;
+  --color-gh-blue: #2f81f7;
+  --color-gh-blue-hover: #388bfd;
+  --color-gh-green: #3fb950;
+  --color-gh-red: #f85149;
+  --color-gh-orange: #d29922;
+}
+
+@keyframes status-breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.4); }
+  50% { transform: scale(1.2); box-shadow: 0 0 0 4px rgba(63, 185, 80, 0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.status-breathing {
+  animation: status-breathe 1.8s ease-in-out infinite;
+}
+
+.spin {
+  animation: spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-breathing, .spin { animation: none; }
+}
