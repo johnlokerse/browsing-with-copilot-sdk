@@ -134,7 +134,26 @@ function renderMarkdown(text: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  return escaped
+  // Tables — process before line-level transforms
+  const withTables = escaped.replace(
+    /^(\|.+\|\n)((?:\|[-: ]+)+\|\n)((?:\|.+\|\n?)+)/gm,
+    (_, header, _sep, body) => {
+      const parseRow = (row: string) =>
+        row.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+
+      const headers = parseRow(header);
+      const rows = body.trim().split("\n").map(parseRow);
+
+      const th = headers.map((h) => `<th class="px-2 py-1 text-left font-semibold text-gh-muted border-b border-gh-border whitespace-nowrap">${h}</th>`).join("");
+      const trs = rows.map((cells) =>
+        `<tr class="border-b border-gh-border/40 last:border-0">${cells.map((c) => `<td class="px-2 py-1 text-gh-text">${c}</td>`).join("")}</tr>`
+      ).join("");
+
+      return `<div class="overflow-x-auto my-1"><table class="w-full text-[11px] border-collapse"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table></div>`;
+    }
+  );
+
+  return withTables
     .replace(/```([\s\S]*?)```/g, (_, code) => `<pre class="mt-1.5 mb-0.5 bg-gh-canvas border border-gh-border rounded p-2 overflow-x-auto"><code class="font-mono text-[11px]">${code.trim()}</code></pre>`)
     .replace(/`([^`]+)`/g, `<code class="font-mono text-[11px] bg-gh-canvas border border-gh-border/60 rounded px-1 py-px">$1</code>`)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
