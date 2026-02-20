@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Copilot Browser Agent",
+  "version": "0.1.0",
+  "description": "Side-panel chat that executes backend tool calls in the active tab.",
+  "permissions": ["storage", "scripting", "tabs", "activeTab", "sidePanel"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Copilot Browser Agent"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copilot Browser Agent</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <details id="controlsDetails" class="controls">
+        <summary class="controls-summary">
+          <div id="statusDot" class="status-dot disconnected"></div>
+          <span id="statusText">Offline</span>
+        </summary>
+        <label class="control-row">
+          <span>Pairing token</span>
+          <input id="tokenInput" type="password" autocomplete="off" />
+        </label>
+
+        <div class="button-row">
+          <button id="connectBtn" type="button">Connect</button>
+          <button id="stopBtn" type="button" class="danger">Stop</button>
+        </div>
+
+        <label class="control-row inline">
+          <input id="autoRunToggle" type="checkbox" />
+          <span>Auto-run</span>
+        </label>
+
+        <section id="approvalBox" class="approval-box">
+          <p id="approvalLabel">No pending action</p>
+          <div class="button-row">
+            <button id="approveBtn" type="button" disabled>Approve</button>
+            <button id="rejectBtn" type="button" disabled>Reject</button>
+          </div>
+        </section>
+      </details>
+
+      <section id="transcript" class="transcript" aria-live="polite"></section>
+
+      <section id="quickActions" class="quick-actions"></section>
+
+      <form id="composer" class="composer">
+        <input id="messageInput" type="text" placeholder="Type a request..." autocomplete="off" required />
+        <button id="sendBtn" type="submit">
+          <span id="sendLabel">Send</span>
+          <span id="sendSpinner" class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </main>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
